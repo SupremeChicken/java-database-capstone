@@ -3,12 +3,12 @@ import { API_BASE_URL } from "../config/config.js";
 
 // API Endpoints
 const ADMIN_API = `${API_BASE_URL}/api/admin/login`;
-const DOCTOR_API = `${API_BASE_URL}/api/doctors/login`;
+const DOCTOR_API = `${API_BASE_URL}/api/doctor/login`;
 
 // Setup button click listeners once DOM is ready
 window.onload = () => {
-  const adminLoginBtn = document.getElementById("adminLoginBtn");
-  const doctorLoginBtn = document.getElementById("doctorLoginBtn");
+  const adminLoginBtn = document.getElementById("adminLogin");
+  const doctorLoginBtn = document.getElementById("doctorLogin");
 
   if (adminLoginBtn) {
     adminLoginBtn.addEventListener("click", () => openModal("adminLogin"));
