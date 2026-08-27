@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
+    //REMOVE TIME FILTER OR SOMETHING
+    List<Doctor> findAll();
 
     // 1. Find doctor by exact email
     Doctor findByEmail(String email);

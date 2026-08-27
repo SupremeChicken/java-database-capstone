@@ -18,7 +18,7 @@ export async function getDoctors() {
 // === Delete Doctor by ID (Admin) ===
 export async function deleteDoctor(doctorId, token) {
   try {
-    const response = await fetch(`${DOCTOR_API}/delete/${doctorId}/${token}`, {
+    const response = await fetch(`${DOCTOR_API}/delete/${token}/${doctorId}`, {
       method: "DELETE"
     });
 
@@ -39,7 +39,7 @@ export async function deleteDoctor(doctorId, token) {
 // === Save New Doctor ===
 export async function saveDoctor(doctor, token) {
   try {
-    const response = await fetch(`${DOCTOR_API}/create/${token}`, {
+    const response = await fetch(`${DOCTOR_API}/register/${token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -64,7 +64,7 @@ export async function saveDoctor(doctor, token) {
 // === Filter Doctors by Name, Time, and Specialty ===
 export async function filterDoctors(name = "", time = "", specialty = "") {
   try {
-    const response = await fetch(`${DOCTOR_API}/filter/${name}/${time}/${specialty}`);
+    const response = await fetch(`${DOCTOR_API}/filter?name=${name}&time=${time}&specialty=${specialty}`);
 
     if (!response.ok) {
       console.error("Filter request failed");

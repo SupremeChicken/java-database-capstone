@@ -5,6 +5,7 @@ import com.project.back_end.services.Service;
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @RestController // 1. Mark as REST controller
 @RequestMapping("${api.path}" + "admin") // Base URL: /api/admin if api.path=/api/
@@ -19,7 +20,7 @@ public class AdminController {
 
     // 3. Admin login endpoint
     @PostMapping("/login")
-    public ResponseEntity<?> adminLogin(@RequestBody Admin admin) {
+    public ResponseEntity<Map<String, String>> adminLogin(@RequestBody Admin admin) {
         return service.validateAdmin(admin.getUsername(), admin.getPassword());
     }
 }

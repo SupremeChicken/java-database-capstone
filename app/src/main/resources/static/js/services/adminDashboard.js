@@ -1,6 +1,6 @@
-import { getDoctors, saveDoctor, filterDoctors } from "./services/doctorServices.js";
-import { createDoctorCard } from "./components/doctorCard.js";
-import { openModal, closeModal } from "./components/modals.js";
+import { getDoctors, saveDoctor, filterDoctors } from "./doctorServices.js";
+import { createDoctorCard } from "../components/doctorCard.js";
+import { openModal } from "../components/modals.js";
 
 // === Event Listener: Add Doctor Button ===
 document.addEventListener("DOMContentLoaded", () => {
@@ -61,19 +61,18 @@ function renderDoctorCards(doctors) {
 
 // === Admin Add Doctor Handler ===
 window.adminAddDoctor = async function () {
-  const name = document.getElementById("docName")?.value.trim();
-  const email = document.getElementById("docEmail")?.value.trim();
-  const phone = document.getElementById("docPhone")?.value.trim();
-  const password = document.getElementById("docPassword")?.value.trim();
-  const specialty = document.getElementById("docSpecialty")?.value.trim();
-  const availableTimesInput = document.getElementById("docAvailableTimes")?.value.trim();
+  const name = document.getElementById("doctorName")?.value.trim();
+  const email = document.getElementById("doctorEmail")?.value.trim();
+  const phone = document.getElementById("doctorPhone")?.value.trim();
+  const password = document.getElementById("doctorPassword")?.value.trim();
+  const specialty = document.getElementById("specialization")?.value.trim();
+  const availableTimes = Array.from(document.querySelectorAll('input[name="availability"]:checked')).map(checkbox => checkbox.value);
 
-  if (!name || !email || !phone || !password || !specialty || !availableTimesInput) {
+  if (!name || !email || !phone || !password || !specialty || !availableTimes) {
     alert("Please fill in all fields.");
     return;
   }
 
-  const availableTimes = availableTimesInput.split(",").map(t => t.trim());
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -84,10 +83,10 @@ window.adminAddDoctor = async function () {
 
   const doctor = {
     name,
-    email,
-    phone,
-    password,
     specialty,
+    email,
+    password,
+    phone,
     availableTimes
   };
 
@@ -96,7 +95,7 @@ window.adminAddDoctor = async function () {
 
     if (result.success) {
       alert("Doctor added successfully!");
-      closeModal("addDoctor");
+      document.getElementById('modal').style.display = 'none';
       loadDoctorCards();
     } else {
       alert(`Failed to add doctor: ${result.message}`);

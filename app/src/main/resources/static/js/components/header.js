@@ -1,3 +1,5 @@
+// header.js — dynamic header renderer for all pages
+
 export function renderHeader() {
   const headerDiv = document.getElementById("header");
 
@@ -38,7 +40,6 @@ export function renderHeader() {
   // Role-specific header actions
   if (role === "admin") {
     headerContent += `
-      <button id="addDocBtn" class="adminBtn" onclick="openModal('addDoctor')">Add Doctor</button>
       <a href="#" id="adminLogout">Logout</a>`;
   } else if (role === "doctor") {
     headerContent += `

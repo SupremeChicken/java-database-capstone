@@ -3,7 +3,7 @@ import { API_BASE_URL } from "../config/config.js";
 
 // API Endpoints
 const ADMIN_API = `${API_BASE_URL}/api/admin/login`;
-const DOCTOR_API = `${API_BASE_URL}/api/doctor/login`;
+const DOCTOR_API = `${API_BASE_URL}/api/doctors/login`;
 
 // Setup button click listeners once DOM is ready
 window.onload = () => {
