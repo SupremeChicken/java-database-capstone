@@ -14,8 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Add filter listeners
   document.getElementById("searchBar")?.addEventListener("input", filterDoctorsOnChange);
-  document.getElementById("timeFilter")?.addEventListener("change", filterDoctorsOnChange);
-  document.getElementById("specialtyFilter")?.addEventListener("change", filterDoctorsOnChange);
+  document.getElementById("filterTime")?.addEventListener("change", filterDoctorsOnChange);
+  document.getElementById("filterSpecialty")?.addEventListener("change", filterDoctorsOnChange);
 });
 
 // === Load and Display All Doctor Cards ===
@@ -31,9 +31,9 @@ async function loadDoctorCards() {
 // === Filter Handler ===
 async function filterDoctorsOnChange() {
   const name = document.getElementById("searchBar")?.value.trim() || "";
-  const time = document.getElementById("timeFilter")?.value || "";
-  const specialty = document.getElementById("specialtyFilter")?.value || "";
-
+  const time = document.getElementById("filterTime")?.value || "";
+  const specialty = document.getElementById("filterSpecialty")?.value || "";
+  
   try {
     const result = await filterDoctors(name, time, specialty);
 

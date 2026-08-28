@@ -43,23 +43,24 @@ async function loadAppointments() {
     tableBody.innerHTML = "";
 
     if (!appointments || appointments.length === 0) {
-      tableBody.innerHTML = `<tr><td colspan="5" class="noPatientRecord">No Appointments found for selected date.</td></tr>`;
+      tableBody.innerHTML = `<tr><td colspan="6" class="noPatientRecord">No Appointments found for selected date.</td></tr>`;
       return;
     }
 
     appointments.forEach(app => {
+        console.log(app);
       const patient = {
-        id: app.patient?.id,
-        name: app.patient?.name,
-        email: app.patient?.email,
-        phone: app.patient?.phone
+        id: app.patient.id,
+        name: app.patient.name,
+        email: app.patient.email,
+        phone: app.patient.phone
       };
       const row = createPatientRow(app, patient);
       tableBody.appendChild(row);
     });
   } catch (err) {
     console.error("Error loading appointments:", err);
-    tableBody.innerHTML = `<tr><td colspan="5" class="noPatientRecord">Error loading appointments. Try again later.</td></tr>`;
+    tableBody.innerHTML = `<tr><td colspan="6" class="noPatientRecord">Error loading appointments. Try again later.</td></tr>`;
   }
 }
 

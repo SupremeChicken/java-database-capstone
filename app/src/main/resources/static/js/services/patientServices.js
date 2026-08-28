@@ -4,7 +4,7 @@ const PATIENT_API = API_BASE_URL + '/patient'
 
 
 //For creating a patient in db
-export async function patientSignup(data) {
+export async function signupPatient(data) {
   try {
     const response = await fetch(`${PATIENT_API}`,
       {
@@ -28,7 +28,7 @@ export async function patientSignup(data) {
 }
 
 //For logging in patient
-export async function patientLogin(data) {
+export async function loginPatient(data) {
   console.log("patientLogin :: ", data)
   return await fetch(`${PATIENT_API}/login`, {
     method: "POST",

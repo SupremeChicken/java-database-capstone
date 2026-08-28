@@ -7,20 +7,20 @@ export function openModal(type) {
          <input type="text" id="doctorName" placeholder="Doctor Name" class="input-field">
          <select id="specialization" class="input-field select-dropdown">
              <option value="">Specialization</option>
-                        <option value="cardiologist">Cardiologist</option>
-                        <option value="dermatologist">Dermatologist</option>
-                        <option value="neurologist">Neurologist</option>
-                        <option value="pediatrician">Pediatrician</option>
-                        <option value="orthopedic">Orthopedic</option>
-                        <option value="gynecologist">Gynecologist</option>
-                        <option value="psychiatrist">Psychiatrist</option>
-                        <option value="dentist">Dentist</option>
-                        <option value="ophthalmologist">Ophthalmologist</option>
-                        <option value="ent">ENT Specialist</option>
-                        <option value="urologist">Urologist</option>
-                        <option value="oncologist">Oncologist</option>
-                        <option value="gastroenterologist">Gastroenterologist</option>
-                        <option value="general">General Physician</option>
+                        <option value="Cardiologist">Cardiologist</option>
+                        <option value="Dermatologist">Dermatologist</option>
+                        <option value="Neurologist">Neurologist</option>
+                        <option value="Pediatrician">Pediatrician</option>
+                        <option value="Orthopedic">Orthopedic</option>
+                        <option value="Gynecologist">Gynecologist</option>
+                        <option value="Psychiatrist">Psychiatrist</option>
+                        <option value="Dentist">Dentist</option>
+                        <option value="Ophthalmologist">Ophthalmologist</option>
+                        <option value="ENT Specialist">ENT Specialist</option>
+                        <option value="Urologist">Urologist</option>
+                        <option value="Oncologist">Oncologist</option>
+                        <option value="Gastroenterologist">Gastroenterologist</option>
+                        <option value="General Physician">General Physician</option>
 
         </select>
         <input type="email" id="doctorEmail" placeholder="Email" class="input-field">
@@ -40,20 +40,21 @@ export function openModal(type) {
   } else if (type === 'patientLogin') {
     modalContent = `
         <h2>Patient Login</h2>
-        <input type="text" id="email" placeholder="Email" class="input-field">
-        <input type="password" id="password" placeholder="Password" class="input-field">
-        <button class="dashboard-btn" id="loginBtn">Login</button>
+        <input id="email" type="email" placeholder="Email">
+        <input id="password" type="password" placeholder="Password">
+
+        <button id="loginBtn" class="dashboard-btn">Login</button>
       `;
   }
   else if (type === "patientSignup") {
     modalContent = `
       <h2>Patient Signup</h2>
-      <input type="text" id="name" placeholder="Name" class="input-field">
-      <input type="email" id="email" placeholder="Email" class="input-field">
-      <input type="password" id="password" placeholder="Password" class="input-field">
-      <input type="text" id="phone" placeholder="Phone" class="input-field">
-      <input type="text" id="address" placeholder="Address" class="input-field">
-      <button class="dashboard-btn" id="signupBtn">Signup</button>
+      <input id="name" type="text" placeholder="Name">
+      <input id="email" type="email" placeholder="Email">
+      <input id="phone" type="tel" placeholder="123-456-7890">
+      <input id="password" type="password" placeholder="Password">
+
+    <button id="signupBtn" class="dashboard-btn">Create Account</button>
     `;
 
   } else if (type === 'adminLogin') {
@@ -80,11 +81,11 @@ export function openModal(type) {
   };
 
   if (type === "patientSignup") {
-    document.getElementById("signupBtn").addEventListener("click", signupPatient);
+    document.getElementById("signupBtn").addEventListener("click", patientSignupHandler);
   }
 
   if (type === "patientLogin") {
-    document.getElementById("loginBtn").addEventListener("click", loginPatient);
+    document.getElementById("loginBtn").addEventListener("click", patientLoginHandler);
   }
 
   if (type === 'addDoctor') {

@@ -54,7 +54,10 @@ public class DoctorService {
                 .collect(Collectors.toSet());
 
         return allSlots.stream()
-                .filter(slot -> !bookedSlots.contains(slot))
+                .filter(slot -> {
+                    String startTime = slot.split("-")[0];
+                    return !bookedSlots.contains(startTime);
+                })
                 .sorted()
                 .collect(Collectors.toList());
     }
@@ -155,7 +158,7 @@ public class DoctorService {
     public List<Doctor> filterDoctorsByTime(List<Doctor> doctors, String timePeriod) {
         return doctors.stream()
                 .filter(doctor -> doctor.getAvailableTimes().stream().anyMatch(timeStr -> {
-                    LocalTime time = LocalTime.parse(timeStr);
+                    LocalTime time = LocalTime.parse(timeStr.split("-")[0]);
                     return timePeriod.equalsIgnoreCase("AM") ? time.isBefore(LocalTime.NOON) : !time.isBefore(LocalTime.NOON);
                 }))
                 .collect(Collectors.toList());

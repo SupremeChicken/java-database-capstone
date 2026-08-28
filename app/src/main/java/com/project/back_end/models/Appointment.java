@@ -17,12 +17,12 @@ public class Appointment {
     private Long id;
 
     @NotNull(message = "Doctor must be assigned")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
     @NotNull(message = "Patient must be assigned")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 

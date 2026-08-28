@@ -39,7 +39,7 @@ public class DoctorController {
                     .body(Map.of("status", "error", "message", "Invalid or expired token."));
         }
 
-        List<?> availableSlots = doctorService.getDoctorAvailability(doctorId, Date.valueOf(date));
+        List<String> availableSlots = doctorService.getDoctorAvailability(doctorId, Date.valueOf(date));
         return ResponseEntity.ok(Map.of("status", "success", "availableSlots", availableSlots));
     }
 
@@ -117,9 +117,9 @@ public class DoctorController {
     public ResponseEntity<Map<String, Object>> filterDoctor(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String time,
-            @RequestParam(required = false) String speciality) {
+            @RequestParam(required = false) String specialty) {
 
-        List<Doctor> doctors = service.filterDoctor(name, speciality, time);
+        List<Doctor> doctors = service.filterDoctor(name, specialty, time);
         return ResponseEntity.ok(Map.of("status", "success", "doctors", doctors));
     }
 }

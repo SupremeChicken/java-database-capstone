@@ -69,21 +69,32 @@ public class Service {
     }
 
     public List<Doctor> filterDoctor(String name, String specialty, String time) {
+        System.out.println("Name: " + name);
+        System.out.println("Specialty: " + specialty);
+        System.out.println("Time: " + time);
         if (name != null && specialty != null && time != null) {
+            System.out.println("Filter All");
             return doctorService.filterDoctorsByNameSpecialtyAndTime(name, specialty, time);
         } else if (name != null && specialty != null) {
+            System.out.println("Filter Name and Specialty");
             return doctorService.filterDoctorByNameAndSpecialty(name, specialty);
         } else if (name != null && time != null) {
+            System.out.println("Filter Name and Time");
             return doctorService.filterDoctorByNameAndTime(name, time);
         } else if (specialty != null && time != null) {
+            System.out.println("Filter Time and Specialty");
             return doctorService.filterDoctorByTimeAndSpecialty(specialty, time);
         } else if (name != null) {
+            System.out.println("Filter Name");
             return doctorService.findDoctorByName(name);
         } else if (specialty != null) {
+            System.out.println("Filter Specialty");
             return doctorService.filterDoctorBySpecialty(specialty);
         } else if (time != null) {
+            System.out.println("Filter Time");
             return doctorService.filterDoctorsByTime(time);
         } else {
+            System.out.println("Filter None");
             return doctorService.getDoctors();
         }
     }
@@ -96,7 +107,8 @@ public class Service {
         }
 
         List<String> availableSlots = doctorService.getDoctorAvailability(doctorId, java.sql.Date.valueOf(date));
-        return availableSlots.contains(time.toString()) ? 1 : 0;
+        return availableSlots.stream()
+            .anyMatch(slot -> slot.split("-")[0].equals(time.toString())) ? 1 : 0;
     }
 
     public boolean validatePatient(Patient patient) {

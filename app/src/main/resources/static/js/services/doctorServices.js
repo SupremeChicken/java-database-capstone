@@ -1,12 +1,15 @@
 import { API_BASE_URL } from "../config/config.js";
 
-// Base endpoint
 const DOCTOR_API = `${API_BASE_URL}/api/doctors`;
 
-// === Get All Doctors ===
 export async function getDoctors() {
   try {
-    const response = await fetch(DOCTOR_API);
+    const response = await fetch(`${DOCTOR_API}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch doctors");
+    }
+
     const data = await response.json();
     return data.doctors || [];
   } catch (error) {
@@ -15,7 +18,6 @@ export async function getDoctors() {
   }
 }
 
-// === Delete Doctor by ID (Admin) ===
 export async function deleteDoctor(doctorId, token) {
   try {
     const response = await fetch(`${DOCTOR_API}/delete/${token}/${doctorId}`, {
@@ -23,12 +25,14 @@ export async function deleteDoctor(doctorId, token) {
     });
 
     const data = await response.json();
+
     return {
       success: response.ok,
       message: data.message
     };
   } catch (error) {
     console.error("Error deleting doctor:", error);
+
     return {
       success: false,
       message: "An unexpected error occurred."
@@ -36,7 +40,6 @@ export async function deleteDoctor(doctorId, token) {
   }
 }
 
-// === Save New Doctor ===
 export async function saveDoctor(doctor, token) {
   try {
     const response = await fetch(`${DOCTOR_API}/register/${token}`, {
@@ -48,12 +51,14 @@ export async function saveDoctor(doctor, token) {
     });
 
     const data = await response.json();
+
     return {
       success: response.ok,
       message: data.message
     };
   } catch (error) {
     console.error("Error saving doctor:", error);
+
     return {
       success: false,
       message: "Unable to save doctor. Please try again."
@@ -61,21 +66,32 @@ export async function saveDoctor(doctor, token) {
   }
 }
 
-// === Filter Doctors by Name, Time, and Specialty ===
 export async function filterDoctors(name = "", time = "", specialty = "") {
   try {
-    const response = await fetch(`${DOCTOR_API}/filter?name=${name}&time=${time}&specialty=${specialty}`);
+    const params = new URLSearchParams();
+
+    if (name) {
+      params.append("name", name);
+    }
+
+    if (time) {
+      params.append("time", time);
+    }
+
+    if (specialty) {
+      params.append("specialty", specialty);
+    }
+
+    const response = await fetch(`${DOCTOR_API}/filter?${params.toString()}`);
 
     if (!response.ok) {
-      console.error("Filter request failed");
-      return { doctors: [] };
+      throw new Error("Failed to filter doctors");
     }
 
     const data = await response.json();
     return data.doctors || [];
   } catch (error) {
     console.error("Error filtering doctors:", error);
-    alert("Something went wrong while filtering doctors.");
-    return { doctors: [] };
+    return [];
   }
 }

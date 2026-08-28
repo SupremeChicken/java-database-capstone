@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController // 1. Mark as REST controller
-@RequestMapping("/patient") // Group all patient operations under /patient
+@RequestMapping("${api.path}" + "patient") // Group all patient operations under /patient
 public class PatientController {
 
     private final PatientService patientService;

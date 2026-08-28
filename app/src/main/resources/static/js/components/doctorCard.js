@@ -15,7 +15,7 @@ export function createDoctorCard(doctor) {
   info.classList.add("doctor-info");
 
   const name = document.createElement("h3");
-  name.textContent = `Dr. ${doctor.name}`;
+  name.textContent = `${doctor.name}`;
 
   const specialty = document.createElement("p");
   specialty.textContent = `Specialty: ${doctor.specialty}`;
