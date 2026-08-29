@@ -25,19 +25,7 @@ function loadDoctorCards() {
     });
 }
 
-export function showBookingOverlay(e, doctor, patient) {
-  const button = e.target;
-  const rect = button.getBoundingClientRect();
-  console.log(patient.name)
-  console.log(patient)
-  const ripple = document.createElement("div");
-  ripple.classList.add("ripple-overlay");
-  ripple.style.left = `${e.clientX}px`;
-  ripple.style.top = `${e.clientY}px`;
-  document.body.appendChild(ripple);
-
-  setTimeout(() => ripple.classList.add("active"), 50);
-
+export function showBookingOverlay(doctor, patient) {
   const modalApp = document.createElement("div");
   modalApp.classList.add("modalApp");
 
@@ -76,7 +64,6 @@ export function showBookingOverlay(e, doctor, patient) {
 
     if (success) {
       alert("Appointment Booked successfully");
-      ripple.remove();
       modalApp.remove();
     } else {
       alert("❌ Failed to book an appointment :: " + message);

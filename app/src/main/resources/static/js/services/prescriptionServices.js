@@ -1,46 +1,46 @@
 // prescriptionServices.js
-import { API_BASE_URL } from '../config/config.js'
+import { API_BASE_URL } from "../config/config.js";
 
-const PRESCRITION_API = API_BASE_URL + "/prescription"
+const PRESCRIPTION_API = `${API_BASE_URL}/api/prescription`;
+
 export async function savePrescription(prescription, token) {
   try {
-    const response = await fetch(`${PRESCRITION_API}/${token}`, {
+    const response = await fetch(`${PRESCRIPTION_API}/save/${token}`, {
       method: "POST",
       headers: {
-        "Content-type": "application/json"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(prescription)
     });
-    const result = await response.json();
-    return { success: response.ok, message: result.message }
-  }
-  catch (error) {
-    console.error("Error :: savePrescription :: ", error)
-    return { success: false, message: result.message }
+
+    const data = await response.json();
+
+    return {
+      success: response.ok,
+      message: data.message || "Something went wrong."
+    };
+  } catch (error) {
+    console.error("Error saving prescription:", error);
+
+    return {
+      success: false,
+      message: "Unable to save prescription. Please try again."
+    };
   }
 }
 
 export async function getPrescription(appointmentId, token) {
   try {
-    const response = await fetch(`${PRESCRITION_API}/${appointmentId}/${token}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+    const response = await fetch(`${PRESCRIPTION_API}/${appointmentId}/${token}`);
+    const data = await response.json();
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Failed to fetch prescription:", errorData);
-      throw new Error(errorData.message || "Unable to fetch prescription");
+      throw new Error(data.message || "Unable to fetch prescription.");
     }
 
-    const result = await response.json();
-    console.log(result)
-    console.log(result)
-    return result; // This should be your prescription object
+    return data;
   } catch (error) {
-    console.error("Error :: getPrescription ::", error);
+    console.error("Error fetching prescription:", error);
     throw error;
   }
 }

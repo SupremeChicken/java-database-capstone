@@ -1,5 +1,5 @@
 // patientAppointment.js
-import { getPatientAppointments, getPatientData, filterAppointments } from "./services/patientServices.js";
+import { getPatientAppointments, fetchPatientDetails, filterAppointments } from "./services/patientServices.js";
 
 const tableBody = document.getElementById("patientTableBody");
 const token = localStorage.getItem("token");
@@ -14,7 +14,7 @@ async function initializePage() {
   try {
     if (!token) throw new Error("No token found");
 
-    const patient = await getPatientData(token);
+    const patient = await fetchPatientDetails(token);
     if (!patient) throw new Error("Failed to fetch patient details");
 
     patientId = Number(patient.id);
@@ -93,7 +93,7 @@ async function handleFilterChange() {
 
   try {
     const response = await filterAppointments(condition, name, token);
-    const appointments = response?.appointments || [];
+    const appointments = response || [];
     filteredAppointments = appointments.filter(app => app.patientId === patientId);
 
     renderAppointments(filteredAppointments);

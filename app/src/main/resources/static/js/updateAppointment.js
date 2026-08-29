@@ -66,7 +66,7 @@ async function initializePage() {
           status: 0
         };
 
-        const updateResponse = await updateAppointment(updatedAppointment, token);
+        const updateResponse = await updateAppointment(updatedAppointment, appointmentId, patientId, token);
 
         if (updateResponse.success) {
           alert("Appointment updated successfully!");

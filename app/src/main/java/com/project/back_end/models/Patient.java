@@ -29,7 +29,7 @@ public class Patient {
     private String password;
 
     @NotNull(message = "Phone number is required")
-    @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
+    @Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$", message = "Phone number must be in the format XXX-XXX-XXXX")
     @Column(nullable = false, unique = true)
     private String phone;
 

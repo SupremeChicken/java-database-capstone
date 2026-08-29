@@ -67,19 +67,9 @@ export function renderHeader() {
 }
 
 function attachHeaderButtonListeners() {
-  const patientLogin = document.getElementById("patientLogin");
-  const patientSignup = document.getElementById("patientSignup");
   const adminLogout = document.getElementById("adminLogout");
   const doctorLogout = document.getElementById("doctorLogout");
   const patientLogout = document.getElementById("patientLogout");
-
-  if (patientLogin) {
-    patientLogin.addEventListener("click", () => openModal("patientLogin"));
-  }
-
-  if (patientSignup) {
-    patientSignup.addEventListener("click", () => openModal("patientSignup"));
-  }
 
   if (adminLogout) {
     adminLogout.addEventListener("click", logout);

@@ -8,7 +8,13 @@ import { patientSignup, patientLogin } from './services/patientServices.js';
 
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Load all doctors initially
   loadDoctorCards();
+
+  // Add filter listeners
+  document.getElementById("searchBar")?.addEventListener("input", filterDoctorsOnChange);
+  document.getElementById("filterTime")?.addEventListener("change", filterDoctorsOnChange);
+  document.getElementById("filterSpecialty")?.addEventListener("change", filterDoctorsOnChange);
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -27,59 +33,45 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })
 
-function loadDoctorCards() {
-  getDoctors()
-    .then(doctors => {
-      const contentDiv = document.getElementById("content");
-      contentDiv.innerHTML = "";
-
-      doctors.forEach(doctor => {
-        const card = createDoctorCard(doctor);
-        contentDiv.appendChild(card);
-      });
-    })
-    .catch(error => {
-      console.error("Failed to load doctors:", error);
-    });
+// === Load and Display All Doctor Cards ===
+async function loadDoctorCards() {
+  try {
+    const doctors = await getDoctors();
+    renderDoctorCards(doctors);
+  } catch (err) {
+    console.error("Error loading doctor cards:", err);
+  }
 }
-// Filter Input
-document.getElementById("searchBar").addEventListener("input", filterDoctorsOnChange);
-document.getElementById("filterTime").addEventListener("change", filterDoctorsOnChange);
-document.getElementById("filterSpecialty").addEventListener("change", filterDoctorsOnChange);
 
+// === Filter Handler ===
+async function filterDoctorsOnChange() {
+  const name = document.getElementById("searchBar")?.value.trim() || "";
+  const time = document.getElementById("filterTime")?.value || "";
+  const specialty = document.getElementById("filterSpecialty")?.value || "";
+  
+  try {
+    const result = await filterDoctors(name, time, specialty);
 
+    if (result.length > 0) {
+      renderDoctorCards(result);
+    } else {
+      document.getElementById("content").innerHTML = `<p class="noDoctorMsg">No doctors found with the given filters.</p>`;
+    }
+  } catch (err) {
+    console.error("Error filtering doctors:", err);
+    alert("Failed to filter doctors. Please try again.");
+  }
+}
 
-function filterDoctorsOnChange() {
-  const searchBar = document.getElementById("searchBar").value.trim();
-  const filterTime = document.getElementById("filterTime").value;
-  const filterSpecialty = document.getElementById("filterSpecialty").value;
+// === Render Doctor Cards ===
+function renderDoctorCards(doctors) {
+  const contentDiv = document.getElementById("content");
+  contentDiv.innerHTML = "";
 
-
-  const name = searchBar.length > 0 ? searchBar : null;
-  const time = filterTime.length > 0 ? filterTime : null;
-  const specialty = filterSpecialty.length > 0 ? filterSpecialty : null;
-
-  filterDoctors(name, time, specialty)
-    .then(response => {
-      const doctors = response.doctors;
-      const contentDiv = document.getElementById("content");
-      contentDiv.innerHTML = "";
-
-      if (doctors.length > 0) {
-        console.log(doctors);
-        doctors.forEach(doctor => {
-          const card = createDoctorCard(doctor);
-          contentDiv.appendChild(card);
-        });
-      } else {
-        contentDiv.innerHTML = "<p>No doctors found with the given filters.</p>";
-        console.log("Nothing");
-      }
-    })
-    .catch(error => {
-      console.error("Failed to filter doctors:", error);
-      alert("❌ An error occurred while filtering doctors.");
-    });
+  doctors.forEach((doc) => {
+    const card = createDoctorCard(doc);
+    contentDiv.appendChild(card);
+  });
 }
 
 window.signupPatient = async function () {

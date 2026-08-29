@@ -4,47 +4,53 @@ import com.project.back_end.models.Prescription;
 import com.project.back_end.services.AppointmentService;
 import com.project.back_end.services.PrescriptionService;
 import com.project.back_end.services.Service;
-//import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController // 1. REST controller for JSON API
-@RequestMapping("${api.path}prescription") // e.g. /api/prescription
+import java.util.Map;
+
+@RestController
+@RequestMapping("${api.path}" + "prescription")
 public class PrescriptionController {
 
     private final PrescriptionService prescriptionService;
     private final AppointmentService appointmentService;
     private final Service service;
 
-    // 2. Constructor injection
-    //@Autowired
-    public PrescriptionController(PrescriptionService prescriptionService,
-                                  AppointmentService appointmentService,
-                                  Service service) {
+    public PrescriptionController(PrescriptionService prescriptionService, AppointmentService appointmentService, Service service) {
         this.prescriptionService = prescriptionService;
         this.appointmentService = appointmentService;
         this.service = service;
     }
 
-    // 3. Save prescription for an appointment
     @PostMapping("/save/{token}")
     public ResponseEntity<?> savePrescription(@RequestBody Prescription prescription, @PathVariable String token) {
         if (!service.validateToken(token, "doctor")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", "error", "message", "Invalid or expired token."));
         }
 
-        // Update appointment status (e.g., to "1" meaning 'Completed')
-        appointmentService.changeAppointmentStatus(prescription.getAppointmentId(), 1);
+        if (prescription.getAppointmentId() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("status", "error", "message", "Appointment ID is required."));
+        }
 
-        return prescriptionService.savePrescription(prescription);
+        ResponseEntity<?> response = prescriptionService.savePrescription(prescription);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            appointmentService.changeAppointmentStatus(prescription.getAppointmentId(), 1);
+        }
+
+        return response;
     }
 
-    // 4. Get prescription by appointment ID
     @GetMapping("/{appointmentId}/{token}")
     public ResponseEntity<?> getPrescription(@PathVariable Long appointmentId, @PathVariable String token) {
         if (!service.validateToken(token, "doctor")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", "error", "message", "Invalid or expired token."));
         }
 
         return prescriptionService.getPrescription(appointmentId);

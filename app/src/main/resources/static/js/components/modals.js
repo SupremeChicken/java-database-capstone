@@ -40,21 +40,22 @@ export function openModal(type) {
   } else if (type === 'patientLogin') {
     modalContent = `
         <h2>Patient Login</h2>
-        <input id="email" type="email" placeholder="Email">
-        <input id="password" type="password" placeholder="Password">
+        <input class="input-field" id="email" type="email" placeholder="Email">
+        <input class="input-field" id="password" type="password" placeholder="Password">
 
-        <button id="loginBtn" class="dashboard-btn">Login</button>
+        <button id="loginBtn" class="dashboard-btn" onclick="loginPatient()">Login</button>
       `;
   }
   else if (type === "patientSignup") {
     modalContent = `
       <h2>Patient Signup</h2>
-      <input id="name" type="text" placeholder="Name">
-      <input id="email" type="email" placeholder="Email">
-      <input id="phone" type="tel" placeholder="123-456-7890">
-      <input id="password" type="password" placeholder="Password">
+      <input class="input-field" id="name" type="text" placeholder="Name">
+      <input class="input-field" id="email" type="email" placeholder="Email">
+      <input class="input-field" id="phone" type="tel" placeholder="123-456-7890">
+      <input class="input-field" id="password" type="password" placeholder="Password">
+      <input class="input-field" id="address" type="text" placeholder="Address">
 
-    <button id="signupBtn" class="dashboard-btn">Create Account</button>
+    <button id="signupBtn" class="dashboard-btn" onclick="signupPatient()">Create Account</button>
     `;
 
   } else if (type === 'adminLogin') {
@@ -79,14 +80,6 @@ export function openModal(type) {
   document.getElementById('closeModal').onclick = () => {
     document.getElementById('modal').style.display = 'none';
   };
-
-  if (type === "patientSignup") {
-    document.getElementById("signupBtn").addEventListener("click", patientSignupHandler);
-  }
-
-  if (type === "patientLogin") {
-    document.getElementById("loginBtn").addEventListener("click", patientLoginHandler);
-  }
 
   if (type === 'addDoctor') {
     document.getElementById('saveDoctorBtn').addEventListener('click', adminAddDoctor);
